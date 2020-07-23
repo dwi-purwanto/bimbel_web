@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -25,7 +28,23 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+
+    /**
+     * Where to redirect users after login.
+     *
+     * @param array
+     */
+     protected $user;
+
+    protected function authenticated(Request $request, $user)
+    {
+        // check roles
+        if ( $user->hasRole('admin') ) {
+            return redirect()->route('admin.dashboard'); //for admin
+        }
+
+        return redirect('/home'); //for user
+    }
 
     /**
      * Create a new controller instance.

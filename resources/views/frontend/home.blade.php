@@ -6,9 +6,8 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{asset('assets/img/apple-icon.png')}}">
     <link rel="icon" type="image/png" href="{{asset('assets/img/favicon.png')}}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>
-        Bimbel-Terpadu
-    </title>
+
+    <title>{{ config('app.name') }} || Home</title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"
@@ -23,6 +22,87 @@
 </head>
 
 <body class="index-page sidebar-collapse">
+    <style>
+        @media (min-width: 768px) {
+
+            /* show 3 items */
+            .carousel-inner .active,
+            .carousel-inner .active + .carousel-item,
+            .carousel-inner .active + .carousel-item + .carousel-item,
+            .carousel-inner .active + .carousel-item + .carousel-item + .carousel-item  {
+                display: block;
+            }
+
+            .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left),
+            .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item,
+            .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item + .carousel-item,
+            .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item + .carousel-item + .carousel-item {
+                transition: none;
+            }
+
+            .carousel-inner .carousel-item-next,
+            .carousel-inner .carousel-item-prev {
+            position: relative;
+            transform: translate3d(0, 0, 0);
+            }
+
+            .carousel-inner .active.carousel-item + .carousel-item + .carousel-item + .carousel-item + .carousel-item {
+                position: absolute;
+                top: 0;
+                right: -25%;
+                z-index: -1;
+                display: block;
+                visibility: visible;
+            }
+
+            /* left or forward direction */
+            .active.carousel-item-left + .carousel-item-next.carousel-item-left,
+            .carousel-item-next.carousel-item-left + .carousel-item,
+            .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item,
+            .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item + .carousel-item,
+            .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item + .carousel-item + .carousel-item {
+                position: relative;
+                transform: translate3d(-100%, 0, 0);
+                visibility: visible;
+            }
+
+            /* farthest right hidden item must be abso position for animations */
+            .carousel-inner .carousel-item-prev.carousel-item-right {
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: -1;
+                display: block;
+                visibility: visible;
+            }
+
+            /* right or prev direction */
+            .active.carousel-item-right + .carousel-item-prev.carousel-item-right,
+            .carousel-item-prev.carousel-item-right + .carousel-item,
+            .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item,
+            .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item + .carousel-item,
+            .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item + .carousel-item + .carousel-item {
+                position: relative;
+                transform: translate3d(100%, 0, 0);
+                visibility: visible;
+                display: block;
+                visibility: visible;
+            }
+
+            }
+
+            /* Bootstrap Lightbox using Modal */
+
+            #profile-grid { overflow: auto; white-space: normal; }
+            #profile-grid .profile { padding-bottom: 40px; }
+            #profile-grid .panel { padding: 0 }
+            #profile-grid .panel-body { padding: 15px }
+            #profile-grid .profile-name { font-weight: bold; }
+            #profile-grid .thumbnail {margin-bottom:6px;}
+            #profile-grid .panel-thumbnail { overflow: hidden; }
+            #profile-grid .img-rounded { border-radius: 4px 4px 0 0;}
+    </style>
+
     <nav class="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg" color-on-scroll="100"
         id="sectionsNav">
         <div class="container">
@@ -58,33 +138,6 @@
                             <i class="material-icons">cloud_download</i> Download
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://www.creative-tim.com/product/material-kit-pro"
-                            target="_blank">
-                            <i class="material-icons">unarchive</i> Upgrade to PRO
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" rel="tooltip" title="" data-placement="bottom"
-                            href="https://twitter.com/CreativeTim" target="_blank"
-                            data-original-title="Follow us on Twitter" rel="nofollow">
-                            <i class="fa fa-twitter"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" rel="tooltip" title="" data-placement="bottom"
-                            href="https://www.facebook.com/CreativeTim" target="_blank"
-                            data-original-title="Like us on Facebook" rel="nofollow">
-                            <i class="fa fa-facebook-square"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" rel="tooltip" title="" data-placement="bottom"
-                            href="https://www.instagram.com/CreativeTimOfficial" target="_blank"
-                            data-original-title="Follow us on Instagram" rel="nofollow">
-                            <i class="fa fa-instagram"></i>
-                        </a>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -93,7 +146,7 @@
     <div class="page-header header-filter" data-parallax="true"
         style="background-image: url({{asset('images/Teacher-students-classroom-feature-image.jpg')}})">
         <div class="container">
-            <div class="row">
+            <div class="row slideanim">
                 <div class="col-md-6">
                     <h1 class="animate__animated animate__fadeInDown title">Bimbel</h1>
                     <h4 class="animate__animated animate__fadeInDown">
@@ -101,12 +154,20 @@
                       Bimbel Untuk Area Jabodetabek ( Jakarta, Bogor, Depok, Tangerang, dan Bekasi) dan Sekitarnya.
                     </h4>
                     <br>
-                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" id="button-login" class="btn btn-success btn-lg">
-                      <i class="material-icons" style="font-size:20px">account_circle</i> Daftar
-                    </a>
-                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" id="button-daftar" class="btn btn-success btn-lg ml-3">
-                      <i class="material-icons" style="font-size:20px">login</i> Masuk
-                    </a>
+                    @if (Route::has('login'))
+                        @auth
+                            <a href="{{ url('/home') }}" target="_blank" id="button-dashboard" class="btn btn-success btn-lg"><i class="material-icons" style="font-size:20px">account_circle</i> Dashboard</a>
+                        @else
+                            <a href="{{ route('register') }}" target="_blank" id="button-login" class="btn btn-success btn-lg">
+                                <i class="material-icons" style="font-size:20px">account_circle</i> Daftar
+                              </a>
+                            @if (Route::has('register'))
+                                <a href="{{ route('login') }}" target="_blank" id="button-daftar" class="btn btn-success btn-lg ml-3">
+                                <i class="material-icons" style="font-size:20px">login</i> Masuk
+                                </a>
+                            @endif
+                        @endauth
+                    @endif
                 </div>
             </div>
         </div>
@@ -115,7 +176,7 @@
     <div class="main main-raised">
         <div class="container">
             <div class="section">
-                <div class="row">
+                <div class="row slideanim">
                     <div class="col-6">
                         <h2 class="title text-left">Bimbel</h2>
                         <h4 class="title">
@@ -131,7 +192,7 @@
 
                             Banyak sekali pilihan instansi bimbingan belajar yang ada saat ini yang mungkin membuat bingung. Namun tidak perlu khawatir lagi, karena kalian dapat memilih untuk mendaftar dan bergabung  di tempat yang tepat yaitu bimbingan belajar di Laskar UI. <br><br>
 
-                            Program yang di rancang bagi siswa SD,SMP dan SMA dalam menghadapi Ujian Sekolah baik ulangan harian, Ujian Nasional maupun Ujian Tes Perguruan Tinggi negeri . Kurikulum yang digunakan mengikuti kurikulum sekolah dan nasional sehingga siswa siap menghadapi tantangan Ujian nasional dan meraih nilai Tinggi
+                            {{-- Program yang di rancang bagi siswa SD,SMP dan SMA dalam menghadapi Ujian Sekolah baik ulangan harian, Ujian Nasional maupun Ujian Tes Perguruan Tinggi negeri . Kurikulum yang digunakan mengikuti kurikulum sekolah dan nasional sehingga siswa siap menghadapi tantangan Ujian nasional dan meraih nilai Tinggi --}}
                         </p>
                     </div>
                     <div class="col-6">
@@ -142,11 +203,105 @@
                 </div>
             </div>
         </div>
-        <div class="container-fluid" style="padding:0px">
+
+        <div class="container" style="padding:0px">
+            <h2 class="title text-center">Kelas & Program</h2>
+            <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="9000" class="section">
+                <div class="carousel-inner row slideanim w-100 mx-auto" role="listbox">
+                    <div class="carousel-item col-md-3  active">
+                       <div class="panel panel-default">
+                          <div class="panel-thumbnail">
+                            <a href="#" title="image 1" class="thumb">
+                              <img class="img-fluid mx-auto d-block" src="{{asset('images/resolusi-2018-untuk-anak-remaja-.original.jpegquality-90.jpg')}}" alt="slide 1" style="width: 300px;height:200px">
+                            </a>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item col-md-3 ">
+                       <div class="panel panel-default">
+                            <div class="panel-thumbnail">
+                                <a href="#" title="image 7" class="thumb">
+                                    <img class="img-fluid mx-auto d-block" src="{{asset('images/resolusi-2018-untuk-anak-remaja-.original.jpegquality-90.jpg')}}" alt="slide 6" style="width: 300px;height:200px">
+                                </a>
+                                <div class="carousel-caption">
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum aspernatur blanditiis nihil id ad sapiente, beatae sunt aperiam cumque voluptas provident nulla ut illum est maiores vero dolorem quam ex.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item col-md-3 ">
+                       <div class="panel panel-default">
+                            <div class="panel-thumbnail">
+                                <a href="#" title="image 7" class="thumb">
+                                <img class="img-fluid mx-auto d-block" src="{{asset('images/resolusi-2018-untuk-anak-remaja-.original.jpegquality-90.jpg')}}" alt="slide 6" style="width: 300px;height:200px">
+                                </a>
+                            </div>
+                            <div class="carousel-caption">
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum aspernatur blanditiis nihil id ad sapiente, beatae sunt aperiam cumque voluptas provident nulla ut illum est maiores vero dolorem quam ex.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item col-md-3 ">
+                       <div class="panel panel-default">
+                            <div class="panel-thumbnail">
+                                <a href="#" title="image 7" class="thumb">
+                                <img class="img-fluid mx-auto d-block" src="{{asset('images/resolusi-2018-untuk-anak-remaja-.original.jpegquality-90.jpg')}}" alt="slide 6" style="width: 300px;height:200px">
+                                </a>
+                            </div>
+                            <div class="carousel-caption">
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum aspernatur blanditiis nihil id ad sapiente, beatae sunt aperiam cumque voluptas provident nulla ut illum est maiores vero dolorem quam ex.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item col-md-3 ">
+                       <div class="panel panel-default">
+                            <div class="panel-thumbnail">
+                                <a href="#" title="image 7" class="thumb">
+                                <img class="img-fluid mx-auto d-block" src="{{asset('images/resolusi-2018-untuk-anak-remaja-.original.jpegquality-90.jpg')}}" alt="slide 6" style="width: 300px;height:200px">
+                                </a>
+                            </div>
+                            <div class="carousel-caption">
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum aspernatur blanditiis nihil id ad sapiente, beatae sunt aperiam cumque voluptas provident nulla ut illum est maiores vero dolorem quam ex.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item col-md-3 ">
+                       <div class="panel panel-default">
+                            <div class="panel-thumbnail">
+                                <a href="#" title="image 7" class="thumb">
+                                <img class="img-fluid mx-auto d-block" src="{{asset('images/resolusi-2018-untuk-anak-remaja-.original.jpegquality-90.jpg')}}" alt="slide 6" style="width: 300px;height:200px">
+                                </a>
+                            </div>
+                            <div class="carousel-caption">
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum aspernatur blanditiis nihil id ad sapiente, beatae sunt aperiam cumque voluptas provident nulla ut illum est maiores vero dolorem quam ex.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev" >
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next text-faded" href="#carouselExample" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+
+            <div class="row justify-content-center mt-5">
+                <a href="" class="btn btn-round btn-danger btn-lg"> Daftar & Cari Kelas  </a>
+            </div>
+        </div>
+
+
+        <br><br>
+         <div class="container-fluid" style="padding:0px">
             <div class="section " style="background-color: #07b8d1">
                 <h2 class="title text-center" style="color:white">FASILITAS PELAJARAN BIMBEL TERPADU</h2>
                 <div class="container">
-                    <div class="row">
+                    <div class="row slideanim">
                         <div class="col-sm-4 ml-auto">
                             <h4>Rounded Raised</h4>
                             <img src="{{asset('images/Teacher-students-classroom-feature-image.jpg')}}" alt="Raised Image" class="img-raised rounded img-fluid">
@@ -163,8 +318,68 @@
                 </div>
             </div>
         </div>
-    </div>
 
+        <div class="section text-center ">
+            <div class="row slideanim">
+              <div class="col-md-8 ml-auto mr-auto">
+                <h2 class="title">Kontak Kami</h2>
+                <h5 class="description">This is the paragraph where you can write more details about your product. Keep you user engaged by providing meaningful information. Remember that by this time, the user is curious, otherwise he wouldn't scroll to get here. Add a button if you want the user to see more.</h5>
+              </div>
+            </div>
+            <div class="features">
+                <div class="row slideanim">
+                    <div class="col-md-4">
+                        <div class="info">
+                            <div class="icon icon-info">
+                            <i class="material-icons">phone</i>
+                            </div>
+                            <h4 class="info-title">Free Chat</h4>
+                            <p>Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="info">
+                            <div class="icon icon-success">
+                            <i class="material-icons">location_on</i>
+                            </div>
+                            <h4 class="info-title">Verified Users</h4>
+                            <p>Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="info">
+                            <div class="icon icon-danger">
+                            <i class="material-icons">email</i>
+                            </div>
+                            <h4 class="info-title">Fingerprint</h4>
+                            <p>Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            ...
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+        </div>
+    </div>
     <footer class="footer footer-default">
         <div class="container">
             <nav class="float-left">
@@ -199,7 +414,37 @@
     <script src="{{asset('template/assets/js/material-kit.js')}}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
+           // Add smooth scrolling to all links in navbar + footer link
+  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
 
+        // Prevent default anchor click behavior
+        event.preventDefault();
+
+        // Store hash
+        var hash = this.hash;
+
+        // Using jQuery's animate() method to add smooth page scroll
+        // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+        $('html, body').animate({
+            scrollTop: $(hash).offset().top
+            }, 900, function(){
+
+            // Add hash (#) to URL when done scrolling (default click behavior)
+            window.location.hash = hash;
+            });
+        });
+
+        // Slide in elements on scroll
+        $(window).scroll(function() {
+            $(".slideanim").each(function(){
+            var pos = $(this).offset().top;
+
+            var winTop = $(window).scrollTop();
+                if (pos < winTop + 600) {
+                $(this).addClass("slide");
+                }
+            });
+        });
             // Sliders Init
             // materialKit.initSliders();
 
@@ -210,6 +455,11 @@
             });
 
             $("#button-daftar").hover(function(){
+                $(this).addClass("animate__animated animate__pulse");
+            }, function(){
+                $(this).removeClass("animate__animated animate__pulse");
+            });
+            $("#button-dashboard").hover(function(){
                 $(this).addClass("animate__animated animate__pulse");
             }, function(){
                 $(this).removeClass("animate__animated animate__pulse");
@@ -225,6 +475,46 @@
             }
         }
 
+        $('#carouselExample').on('slide.bs.carousel', function (e) {
+
+            var $e = $(e.relatedTarget);
+            var idx = $e.index();
+            var itemsPerSlide = 4;
+            var totalItems = $('.carousel-item').length;
+
+            if (idx >= totalItems-(itemsPerSlide-1)) {
+                var it = itemsPerSlide - (totalItems - idx);
+                for (var i=0; i<it; i++) {
+                    // append slides to end
+                    if (e.direction=="left") {
+                        $('.carousel-item').eq(i).appendTo('.carousel-inner');
+                    }
+                    else {
+                        $('.carousel-item').eq(0).appendTo('.carousel-inner');
+                    }
+                }
+            }
+            });
+
+
+            $('#carouselExample').carousel({
+                        interval: 2000
+                });
+
+
+            $(document).ready(function() {
+            /* show lightbox when clicking a thumbnail */
+            $('a.thumb').click(function(event){
+            event.preventDefault();
+            var content = $('.modal-body');
+            content.empty();
+                var title = $(this).attr("title");
+                $('.modal-title').html(title);
+                content.html($(this).html());
+                $(".modal-profile").modal({show:true});
+            });
+
+        });
     </script>
 </body>
 
