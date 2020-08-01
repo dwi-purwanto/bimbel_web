@@ -1,4 +1,4 @@
-@extends('layouts.auth-layouts.app', ['activePage' => 'cms', 'titlePage' => __('List Pengajar')])
+@extends('layouts.auth-layouts.app', ['activePage' => 'list', 'titlePage' => __('List Pengajar')])
 @section('link-css')
     <!-- Datatables -->
      <link href="{{asset('template-admin/gentelella-master')}}/vendors/bootstrap-daterangepicker/daterangepicker.css"
@@ -23,7 +23,7 @@
             <div class="col-md-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>List Kelas & Program </h2>
+                        <h2>List Pengajar </h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
@@ -67,7 +67,7 @@
                                                         <tr>
 
                                                             <td> {{$no++}}  </td>
-                                                            <td> <img src="{{asset('../storage/app/images/'.$item->foto)}}" alt="image" class="img-thumbnail" style="height:120px;width:120px">  </td>
+                                                            <td style="width: 300px"> <img src="{{asset('../storage/app/images/'.$item->foto)}}" alt="image" class="img-thumbnail" style="height:120px;width:120px">  </td>
                                                             <td> {{$item->nip}}  </td>
                                                             <td> {{$item->nama}}  </td>
                                                             <td> {{ $item->jenis_kelamin == 1 ? 'Lak-Laki' : 'Perempuan' }}  </td>

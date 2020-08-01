@@ -12,6 +12,7 @@ use App\Repositories\AdminRepositories\Eloquent\CmsRepository;
 class CmsController extends Controller
 {
     private $cmsRepo;
+    private $pengajarRepo;
     private $page;
 
     public function __construct(CmsRepository $cmsRepo)
@@ -79,16 +80,61 @@ class CmsController extends Controller
     {
         $data       = $this->cmsRepo->getDataProgram();
         $activePage = $this->page;
+        return view('admin.cms.program', compact('data', 'activePage'));
+    }
 
+    public function editProgram($id)
+    {
+        $data       = $this->cmsRepo->getDataProgramById($id);
+        $activePage = $this->page;
+        return view('admin.cms.edit_program', compact('data', 'activePage'));
+    }
+
+    public function updateProgram($id, Request $request)
+    {
+        $validatedData = $request->validate([
+            'title'          => 'required',
+            'description'    => 'required',
+            'harga'          => 'required',
+            'tingkatan'      => 'required',
+            'nama_pelajaran' => 'required'
+        ]);
+
+        $data       = $this->cmsRepo->updateProgram($id, $request);
+
+        Alert::success('Berhasil', 'Berhasil Update Data');
+        return Redirect::route('admin.list.program');
+    }
+
+    public function deleteProgram(Request $request)
+    {
+        $data       = $this->cmsRepo->deleteProgram($request);
+        $activePage = $this->page;
         return view('admin.cms.program', compact('data', 'activePage'));
     }
 
     public function createProgram()
     {
-        // $data       = $this->cmsRepo->getDataProgram();
-        $activePage = $this->page;
+        $activePage     = $this->page;
 
-        return view('admin.cms.create_program', compact('data', 'activePage'));
+        return view('admin.cms.create_program', compact('activePage'));
+    }
+
+    public function storeProgram(Request $request)
+    {
+        $validatedData = $request->validate([
+            'title'          => 'required',
+            'description'    => 'required',
+            'image'          => 'required',
+            'harga'          => 'required',
+            'tingkatan'      => 'required',
+            'nama_pelajaran' => 'required'
+        ]);
+
+        $result     = $this->cmsRepo->storeProgram($request);
+
+        Alert::success('Berhasil', 'Berhasil Simpan Data');
+        return Redirect::route('admin.list.program');
     }
 
     public function listContact()

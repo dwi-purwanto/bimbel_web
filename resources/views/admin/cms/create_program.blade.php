@@ -1,12 +1,15 @@
 @extends('layouts.auth-layouts.app', ['activePage' => 'cms', 'titlePage' => __('Create Program')])
 
 @section('content')
-    <!-- NProgress -->
-    <link href="{{asset('template-admin/gentelella-master')}}/vendors/nprogress/nprogress.css" rel="stylesheet">
+<!-- NProgress -->
+<link href="{{asset('template-admin/gentelella-master')}}/vendors/nprogress/nprogress.css" rel="stylesheet">
+<!-- Switchery -->
+<link href="{{asset('template-admin/gentelella-master')}}/vendors/switchery/dist/switchery.min.css" rel="stylesheet">
 <style>
     .error-file-photo {
         color: red
     }
+
 </style>
 <script src="https://rawgit.com/jackmoore/autosize/master/dist/autosize.min.js"></script>
 <div class="container body">
@@ -26,31 +29,32 @@
                     </div>
                     <div class="x_content">
                         <br>
-                        <div id="wizard" class="form_wizard wizard_horizontal">
-                            <ul class="wizard_steps">
-                              <li>
-                                <a href="#step-1">
-                                  <span class="step_no">1</span>
-                                  <span class="step_descr">
-                                                    Step 1<br />
-                                                    <small>Step 1 description</small>
-                                                </span>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="#step-2">
-                                  <span class="step_no">2</span>
-                                  <span class="step_descr">
-                                                    Step 2<br />
-                                                    <small>Step 2 description</small>
-                                                </span>
-                                </a>
-                              </li>
-                            </ul>
-                            <div id="step-1">
-                                <form id="form-edit" action=" {{ route('admin.update.banner') }} "
-                                    method="POST" data-parsley-validate="" class="form-horizontal form-label-left"
-                                    novalidate="" enctype="multipart/form-data">
+
+                        <form id="form-edit" action=" {{ route('admin.store.program') }} " method="POST"
+                            data-parsley-validate="" class="form-horizontal form-label-left" novalidate=""
+                            enctype="multipart/form-data">
+
+                            <div id="wizard" class="form_wizard wizard_horizontal">
+                                <ul class="wizard_steps">
+                                    <li>
+                                        <a href="#step-1">
+                                            <span class="step_no">1</span>
+                                            <span class="step_descr">
+                                                Data Program
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#step-2">
+                                            <span class="step_no">2</span>
+                                            <span class="step_descr">
+                                                Detail Program
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div id="step-1">
+                                    <h2 class="StepTitle">Step 2 Content</h2>
                                     {{ csrf_field() }}
 
                                     <div class="item form-group">
@@ -59,12 +63,12 @@
                                         </label>
                                         <div class="col-md-8 col-sm-8 ">
                                             <input type="text" id="title" placeholder="{{ __('Title') }}"
-                                            required="required" class="form-control" name="title"
-                                            value="{{ old('title') }}">
+                                                required="required" class="form-control" name="title"
+                                                value="{{ old('title') }}">
 
                                             @if($errors->has('title'))
-                                                <span id="title-error" class="error text-danger"
-                                                    for="input-title">{{ $errors->first('title') }}</span>
+                                            <span id="title-error" class="error text-danger"
+                                                for="input-title">{{ $errors->first('title') }}</span>
                                             @endif
                                         </div>
                                     </div>
@@ -76,77 +80,121 @@
                                         <div class="col-md-8 col-sm-8 ">
                                             <div id="message"></div>
                                             <div align="center">
-                                                @if(empty($data->banner_image))
-                                                    <img style="width: 60%; display: block; height:400px" id="previewing"
-                                                        src="{{ asset('images/image02.png') }}"
-                                                        alt="image" />
-                                                @else
-                                                    <img style="width: 60%; display: block;height:400px" id="previewing"
-                                                        src="{{ asset('../storage/app/images_web/'.$data->banner_image) }}"
-                                                        alt="image" />
-                                                @endif
+                                                <img style="width: 60%; display: block; height:400px" id="previewing"
+                                                src="{{ asset('images/image02.png') }}" alt="image" />
                                             </div><br />
                                             <div class="item form-group">
                                                 <div class="col-md-8 col-sm-8">
                                                     <div><input type="file" name="image" id="file" class="form-control"
                                                             name="foto" autofocus required /></div>
                                                     @if($errors->has('image'))
-                                                        <span id="image-error" class="error text-danger"
-                                                            for="input-image">{{ $errors->first('image') }}</span>
+                                                    <span id="image-error" class="error text-danger"
+                                                        for="input-image">{{ $errors->first('image') }}</span>
                                                     @endif
                                                 </div>
                                             </div>
-
-
                                         </div>
                                     </div>
 
                                     <div class="item form-group">
                                         <label class="col-form-label col-md-3 col-sm-3 label-align"
-                                            for="banner_image">{{ __('Description') }} <span
-                                                class="required">*</span>
+                                            for="banner_image">{{ __('Description') }} <span class="required">*</span>
                                         </label>
                                         <div class="col-md-8 col-sm-8">
                                             @php
-                                                $text_data = !empty($data->description) ? $data->description : '';
+                                            $text_data = !empty($data->description) ? $data->description : '';
                                             @endphp
                                             <textarea name="description" class="form-control" id="description" required
                                                 placeholder="{{ __('Description') }}"> {{ old('description', $text_data) }}</textarea>
 
                                             @if($errors->has('description'))
-                                                <span id="description-error" class="error text-danger"
-                                                    for="input-description">{{ $errors->first('description') }}</span>
+                                            <span id="description-error" class="error text-danger"
+                                                for="input-description">{{ $errors->first('description') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="step-2">
+                                    <h2 class="StepTitle">Step 2 Content</h2>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                            for="title">{{ __('Nama Pelajaran') }} <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-8 col-sm-8 ">
+                                            <input type="text" id="nama_pelajaran"
+                                                placeholder="{{ __('Nama Pelajaran') }}" required="required"
+                                                class="form-control" name="nama_pelajaran"
+                                                value="{{ old('nama_pelajaran') }}">
+
+                                            @if($errors->has('nama_pelajaran'))
+                                            <span id="nama_pelajaran-error" class="error text-danger"
+                                                for="input-nama_pelajaran">{{ $errors->first('nama_pelajaran') }}</span>
                                             @endif
                                         </div>
                                     </div>
 
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                            for="title">{{ __('Tingkatan') }} <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-8 col-sm-8 ">
+                                            <select name="tingkatan" id="tingkatan" class="form-control">
+                                                <option value="SD">SD </option>
+                                                <option value="SMP">SMP / Sederajat</option>
+                                                <option value="SMA">SMA / SMK / Sederajat</option>
+                                            </select>
+
+                                            @if($errors->has('tingkatan'))
+                                            <span id="tingkatan-error" class="error text-danger"
+                                                for="input-tingkatan">{{ $errors->first('tingkatan') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                            for="title">{{ __('Harga') }} <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-8 col-sm-8 ">
+                                            <input type="number" id="harga" placeholder="{{ __('Harga') }}"
+                                                required="required" class="form-control" name="harga"
+                                                value="{{ old('harga') }}" maxlength="12">
+
+                                            @if($errors->has('harga'))
+                                            <span id="harga-error" class="error text-danger"
+                                                for="input-harga">{{ $errors->first('harga') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="item form-group">
+                                        <label for="Status Mengajar"
+                                            class="col-form-label col-md-3 col-sm-3 label-align">{{ __('Status Aktif') }}</label>
+                                        <div class="col-md-8 col-sm-8 ">
+                                            <div class="">
+                                                <label>
+                                                    <input type="checkbox" class="js-switch" data-switchery="true"
+                                                        name="status" value="1">
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
 
 
-                                    {{-- <div class="ln_solid"></div>
+                                    <div class="ln_solid"></div>
                                     <div class="pull-right">
                                         <button type="button" class="btn btn-danger"
                                             onClick="window.location.reload();">{{ __('Cancel') }}</button>
-                                        <button type="submit" id="button-save" class="btn btn-success">{{ __('Simpan') }}</button>
-                                    </div> --}}
+                                        <button type="submit" id="button-save"
+                                            class="btn btn-success">{{ __('Simpan') }}</button>
+                                    </div>
 
-                                </form>
-
+                                </div>
                             </div>
-                            <div id="step-2">
-                              <h2 class="StepTitle">Step 2 Content</h2>
-                              <p>
-                                do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                              </p>
-                              <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                                in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                              </p>
-                            </div>
-
-                          </div>
+                        </form>
 
                     </div>
+
                 </div>
             </div>
 
@@ -159,7 +207,10 @@
 @section('scripts')
 <script src="{{asset('template-admin/gentelella-master')}}/vendors/nprogress/nprogress.js"></script>
 <!-- jQuery Smart Wizard -->
-<script src="{{asset('template-admin/gentelella-master')}}/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
+<script src="{{asset('template-admin/gentelella-master')}}/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js">
+</script>
+<!-- Switchery -->
+<script src="{{asset('template-admin/gentelella-master')}}/vendors/switchery/dist/switchery.min.js"></script>
 <script>
     autosize(document.getElementById("description"));
     $(document).ready(function () {
@@ -168,8 +219,10 @@
         });
 
         // Smart Wizard
-        $('#wizard').smartWizard( );
+        $('#wizard').smartWizard();
 
+        $('.buttonFinish').hide();
+        $('.buttonNext').addClass('pull-right');
 
     });
 

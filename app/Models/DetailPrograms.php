@@ -14,4 +14,12 @@ class DetailPrograms extends Model
      * @var array
      */
     protected $guarded = [];
+
+    /**
+     * Get the author of the post.
+     */
+    public function programHeader()
+    {
+        return $this->belongsTo('App\Models\Program', 'id_programs', 'id');
+    }
 }

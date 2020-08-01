@@ -49,8 +49,7 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella
-                                Alela!</span></a>
+                        <a href="index.html" class="site_title"><i class="fa fa-graduation-cap"></i> <span>Bimbel - Terpadu</span></a>
                     </div>
 
                     <div class="clearfix"></div>
@@ -58,10 +57,10 @@
                     <!-- menu profile quick info -->
                     <div class="profile clearfix">
                         <div class="profile_pic">
-                            <img src="{{asset('images/Teacher-students-classroom-feature-image.jpg')}}" alt="profile" class="img-circle profile_img">
+                            <img src="{{asset('../storage/app/images/'.Auth::user()->profile->foto)}}" alt="profile" class="img-circle profile_img" style="height: 55px">
                         </div>
                         <div class="profile_info">
-                            <span>Welcome,</span>
+                            <span>Hello,</span>
                             <h2> {{Auth::user()->name}} </h2>
                         </div>
                     </div>
@@ -73,22 +72,6 @@
                     @include('layouts.auth-layouts.components.sidebar')
                     <!-- /sidebar menu -->
 
-                    <!-- /menu footer buttons -->
-                    <div class="sidebar-footer hidden-small">
-                        <a data-toggle="tooltip" data-placement="top" title="Settings">
-                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Lock">
-                            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
-                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                        </a>
-                    </div>
-                    <!-- /menu footer buttons -->
                 </div>
             </div>
 
@@ -161,7 +144,7 @@
 
     @yield('scripts')
     <script type="text/javascript">
-      $('.numeric').on('input', function (event) { 
+      $('.numeric').on('input', function (event) {
         this.value = this.value.replace(/[^0-9]/g, '');
       });
     </script>

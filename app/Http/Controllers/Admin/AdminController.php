@@ -50,6 +50,14 @@ class AdminController extends Controller
         return view('admin.profile.edit', compact('data', 'activePage'));
     }
 
+    protected function editPassword()
+    {
+        $data       = $this->user;
+        $activePage = $this->page;
+
+        return view('admin.profile.edit_password', compact('data', 'activePage'));
+    }
+
     protected function updateProfile($id, Request $request)
     {
         $validatedData = $request->validate([
@@ -63,6 +71,25 @@ class AdminController extends Controller
         $result = $this->adminRepo->updateProfile($request, $id);
 
         Alert::success('Berhasil', 'Berhasil Update Data');
+        return Redirect::back();
+    }
+
+    protected function updatePassword($id, Request $request)
+    {
+        $validatedData = $request->validate([
+            'new_password'              => 'required|confirmed|min:6',
+            'new_password_confirmation' => 'required',
+            'old_password'              => 'required',
+        ]);
+
+        $result = $this->adminRepo->updatePassword($id, $request);
+
+        if($result != FALSE) {
+            Alert::success('Berhasil', 'Berhasil Ubah Password');
+        }else{
+            Alert::error('Error', 'Gagal Ubah Password');
+        }
+
         return Redirect::back();
     }
 

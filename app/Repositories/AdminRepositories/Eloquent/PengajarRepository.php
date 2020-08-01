@@ -23,6 +23,13 @@ Class PengajarRepository {
         return $result;
     }
 
+    public function getDataActive()
+    {
+        $result = $this->model_pengajar->where('status', 1)->get();
+
+        return $result;
+    }
+
     public function getDataById($id)
     {
         $result = $this->model_pengajar->findOrFail($id);

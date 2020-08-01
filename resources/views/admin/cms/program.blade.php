@@ -48,16 +48,35 @@
                                                 <th>Title</th>
                                                 <th>Image</th>
                                                 <th>Description</th>
+                                                <th>Status</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
                                                 @if (empty($data))
+                                                    <tr><td colspan="5"> <h3 align="center"> <i class="fa fa-warning"></i> Data Kelas Dan Program Kosong </h3></td></tr>
                                                 @else
-                                                    <td colspan="5"> <h3 align="center"> <i class="fa fa-warning"></i> Data Kelas Dan Program Kosong </h3></td>
+                                                    @php $no = 1; @endphp
+                                                    @foreach ($data as $item)
+                                                    <tr>
+                                                        <td> {{$no++}} </td>
+                                                        <td> {{$item->title}} </td>
+                                                        <td> <img src="{{asset('../storage/app/images_web/'.$item->image)}}" alt="image" class="img-thumbnail" style="height:120px;width:120px">  </td>
+                                                        <td> {{$item->description}} </td>
+                                                        <td>
+                                                            @if ($item->detailProgram->status == 1)
+                                                                <label class="badge badge-primary" style="font-size: 14px"> Aktif </label>
+                                                            @else
+                                                                <label class="badge badge-warning" style="font-size: 14px"> Tidak Aktif </label>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            <a class="btn btn-primary btn-sm" type="button" href=" {{ route('admin.edit.program', $item->id) }} "> Edit </a>
+                                                            <button class="btn btn-danger btn-sm" type="button" data-id="{{$item->id}}" id="delete-button"> Hapus </button>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
                                                 @endif
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -91,6 +110,29 @@
 <script src="{{asset('template-admin/gentelella-master')}}/vendors/pdfmake/build/pdfmake.min.js"></script>
 <script src="{{asset('template-admin/gentelella-master')}}/vendors/pdfmake/build/vfs_fonts.js"></script>
 <script>
-
+    $(document).on('click', '#delete-button', function (e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        swal({
+                title: "Anda akan menghapus data ini!",
+                type: "info",
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes!",
+                showCancelButton: true,
+            },
+            function() {
+                $.ajax({
+                    type: "POST",
+                    url: "{{route('admin.delete.pengajar')}}",
+                    data: {
+                            "_token": "{{ csrf_token() }}",
+                            "id": id
+                    },
+                    success: function (data) {
+                       location.reload(true);
+                    }
+                });
+        });
+    });
 </script>
 @stop

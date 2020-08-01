@@ -42,6 +42,25 @@ Class AdminRepository implements AdminRepositoryInterface {
         return $result;
     }
 
+    public function updatePassword($id, $request)
+    {
+        $user = $this->model_user->findOrFail($id);
+
+        if(!empty($user)) {
+            if (password_verify($request->old_password, $user->password)) {
+                $user->password = \Hash::make($request->new_password);
+                $user->save();
+                $result = $user;
+            }else{
+                $result = FALSE;
+            }
+        }else{
+            $result = FALSE;
+        }
+
+        return $result;
+    }
+
     public function updatePhoto($request, $id)
     {
         $result = $this->model_profile->where('user_id', $id)->first();

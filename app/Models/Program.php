@@ -14,4 +14,9 @@ class Program extends Model
      * @var array
      */
     protected $guarded = [];
+
+    public function detailProgram()
+    {
+        return $this->hasOne('App\Models\DetailPrograms', 'id_programs', 'id');
+    }
 }

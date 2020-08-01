@@ -2,6 +2,7 @@
 
 namespace App\Repositories\AdminRepositories\Eloquent;
 
+use DB;
 use App\User;
 use App\Models\About;
 use App\Models\Banner;
@@ -9,6 +10,7 @@ use App\Models\Profile;
 use App\Models\Program;
 use App\Models\Contact;
 use App\Models\DetailPrograms;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 Class CmsRepository {
@@ -63,6 +65,29 @@ Class CmsRepository {
         return $result;
     }
 
+    public function updateProgram($id, $request) {
+
+        $result = self::getDataProgramById($id);
+
+        if( !empty($request->image)) {
+            //Delete File
+            $delete_file = self::deletePhoto($result->detailProgram->image);
+
+            //function upload foto
+            $file_name = self::uploadPhoto($request->image);
+            $result->image          = $file_name;
+        }
+
+        // save header
+        $result->title          = $request->title;
+        $result->description    = $request->description;
+        $result->save();
+
+        self::saveDetailProgram($request, $result);
+
+        return $result;
+    }
+
     public function updateAbout($request) {
 
         $result = self::getDataAbout();
@@ -83,6 +108,8 @@ Class CmsRepository {
         $result->banner_image   = $file_name;
 
         $result->save();
+
+
 
         return $result;
     }
@@ -109,15 +136,111 @@ Class CmsRepository {
     }
 
     public function getDataProgram() {
-        // $result = $this->model_banners->findOrFail($id);
         $result = $this->model_program->get();
 
         return $result;
     }
 
-    public function getDataContact() {
+    public function getListProgram() {
+        $result = $this->model_program->get();
+
+        return $result;
+    }
+
+    public function getListProgramDetailPerPage($tingkat, $pelajaran) {
+        $result = $this->model_detailprogram->with('programHeader')->where('status', 1);
+        // $result = DB::table('detail_kursus')->join('programs', 'programs.id', '=', 'detail_kursus.id_programs');
+        if(!empty($tingkat)) {
+            $result = $result->where('tingkatan', $tingkat);
+        }
+
+        if(!empty($pelajaran)) {
+            $result = $result->where('nama_pelajaran', $pelajaran);
+        }
+
+        $result = $result->paginate(3);
+
+        return $result;
+    }
+
+    public function getDetailProgramActive() {
+        $result = $this->model_detailprogram->where('status', 1)->get();
+
+        return $result;
+    }
+    public function getDetailProgramFilterByTingkatan($request) {
+        $result = $this->model_detailprogram->where('tingkatan', $request->tingkatan)->get();
+
+        return $result;
+    }
+
+    public function getDataProgramById($id) {
         // $result = $this->model_banners->findOrFail($id);
+        $result = $this->model_program->findOrFail($id);
+
+        return $result;
+    }
+
+    public function storeProgram($request) {
+
+        $result = new $this->model_program;
+
+        //function upload foto
+        $file_name = self::uploadPhoto($request->image);
+
+        $result->title          = $request->title;
+        $result->description    = $request->description;
+        $result->image          = $file_name;
+
+        $result->save();
+
+        // save detail
+        self::saveDetailProgram($request, $result);
+
+        return $result;
+    }
+
+    public function saveDetailProgram($request, $data) {
+
+        $result = $this->model_detailprogram->where('id_programs',$data->id)->first();
+
+        if(empty($result)) {
+            $result              = new $this->model_detailprogram;
+            $result->id_programs = $data->id;
+        }
+
+        $result->nama_pelajaran  = $request->nama_pelajaran;
+        $result->tingkatan       = $request->tingkatan;
+        $result->harga           = $request->harga;
+        $result->status          = empty($request->status) ? 0 : 1;
+        $result->save();
+
+        return $result;
+    }
+
+    public function deleteProgram($request, $data) {
+
+        $result = new $this->model_detailprogram;
+
+        $result->save();
+
+        return $result;
+    }
+
+    public function getDataContact() {
         $result = $this->model_contact->get();
+
+        return $result;
+    }
+
+    public function getListContact() {
+        $result = $this->model_contact->where('name', 'content')->get();
+
+        return $result;
+    }
+
+    public function getHeaderContact() {
+        $result = $this->model_contact->where('name', 'header')->first();
 
         return $result;
     }
